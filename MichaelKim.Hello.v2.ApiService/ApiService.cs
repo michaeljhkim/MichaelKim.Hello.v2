@@ -18,6 +18,7 @@ builder.Services.AddSingleton<DatabaseConnection>();
 builder.Services.AddProblemDetails();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+// COMMENT THIS OUT
 builder.Services.AddOpenApi();
 
 /*
@@ -35,6 +36,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler();
 
+// COMMENT THIS OUT OR MODIFY TO BE USEFUL
 if (app.Environment.IsDevelopment()) {
     app.MapOpenApi();
 }
@@ -50,9 +52,10 @@ app.MapGet("/pinned-repos", (IMemoryCache cache) => {
 
 // test endpoint -> get age from database
 app.MapGet("/age", async (DatabaseConnection service) => {
-    var age = await service.GetAgeAsync();
-    return Results.Ok(age);
-});
+        var age = await service.GetAgeAsync();
+        return Results.Ok(age);
+    }
+);
 
 /*
 string[] summaries = ["Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"];

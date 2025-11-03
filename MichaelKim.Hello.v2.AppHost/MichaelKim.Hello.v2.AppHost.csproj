@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MichaelKim.Hello.v2.ApiService\MichaelKim.Hello.v2.ApiService.csproj" />
-    <ProjectReference Include="..\MichaelKim.Hello.v2.Web\MichaelKim.Hello.v2.Web.csproj" />
   </ItemGroup>
 
   <ItemGroup>
