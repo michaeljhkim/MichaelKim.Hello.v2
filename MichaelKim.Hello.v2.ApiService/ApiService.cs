@@ -17,15 +17,7 @@ builder.Services.AddSingleton<DatabaseConnection>();
 // Add services to the container.
 builder.Services.AddProblemDetails();
 
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-// COMMENT THIS OUT
-builder.Services.AddOpenApi();
-
-/*
-Register Pinned Repo Hosted Service 
-- GitHubPinnedRepoFetcher -> single global instance created and managed by builder.Services 
-- GitHubPinnedRepoService -> backgroud service
-*/
+// Register Pinned Repo Hosted Service
 builder.Services.AddSingleton<GitHubPinnedRepoFetcher>();
 builder.Services.AddHostedService<GitHubPinnedRepoService>();
 builder.Services.AddMemoryCache();
@@ -57,26 +49,5 @@ app.MapGet("/age", async (DatabaseConnection service) => {
     }
 );
 
-/*
-string[] summaries = ["Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"];
-app.MapGet("/weatherforecast", () => {
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast(
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        )
-    ).ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
-*/
-
 app.MapDefaultEndpoints();
 app.Run();
-
-/*
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary) {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
-*/

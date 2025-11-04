@@ -1,18 +1,22 @@
+
+// https://medium.com/@diegogauna.developer/restful-api-using-typescript-and-react-hooks-3d99bdd0cd39
+// https://nextjs.org/docs/pages/guides/environment-variables
+
 type Project = {
-  name: string
-  description: string
-  link: string
-  video: string
-  id: string
+	name: string
+	description: string
+	link: string
+	video: string
+	id: string
 }
 
 type WorkExperience = {
-  company: string
-  title: string
-  start: string
-  end: string
-  link: string
-  id: string
+	company: string
+	title: string
+	start: string
+	end: string
+	link: string
+	id: string
 }
 
 type BlogPost = {
