@@ -46,19 +46,18 @@ if (app.Environment.IsDevelopment()) {
     app.MapOpenApi();
 }
 
-app.MapGet("/pinned-repos", (IMemoryCache cache) => {
-        // PinnedRepos -> name in cache, set in GitHubPinnedRepoService
-        if (cache.TryGetValue<List<PinnedRepo>>("PinnedRepos", out var repos)) {
-            return Results.Ok(repos);
-        }
-        return Results.Ok(new List<PinnedRepo>()); // return empty if not fetched yet
+app.MapGet("/pinned-repos", async (DatabaseConnection service) => {
+        var data = await service.GetPinnedReposAsync();
+        return Results.Ok(data);
     }
-).WithName("GetPinnedRepos").RequireCors(MyAllowSpecificOrigins);
+)
+.WithName("GetPinnedRepos")
+.RequireCors(MyAllowSpecificOrigins);
 
 // test endpoint -> get age from database
 app.MapGet("/hello-info-data", async (DatabaseConnection service) => {
-        var age = await service.GetHelloInfoDataAsync();
-        return Results.Ok(age);
+        var data = await service.GetHelloInfoDataAsync();
+        return Results.Ok(data);
     }
 );
 

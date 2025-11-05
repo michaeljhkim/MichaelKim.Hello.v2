@@ -151,7 +151,7 @@ export type PinnedRepo = {
 	name: string;
 	description: string;
 	link: string;
-	uid: string;
+	id: string;
 };
 
 export type HelloInfoData = {

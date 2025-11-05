@@ -8,13 +8,6 @@ using HtmlAgilityPack;
 https://aspnano.com/web-scraping-in-c-asp-net/
 */
 
-public class PinnedRepo {
-    public string Name { get; set; } = "";
-    public string Description { get; set; } = "";
-    public string Link { get; set; } = "";
-    public int Uid { get; set; } = 0;
-}
-
 public class GitHubPinnedRepoFetcher {
     private readonly HttpClient _httpClient;
 
@@ -56,7 +49,7 @@ public class GitHubPinnedRepoFetcher {
                         Name = name,
                         Description = description,
                         Link = $"{baseUrl}{href}",
-                        Uid = 0
+                        Id = Guid.Empty
                     }
                 );
             }

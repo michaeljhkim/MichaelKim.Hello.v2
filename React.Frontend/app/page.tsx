@@ -130,7 +130,7 @@ function MagneticSocialLink({
 
 export default function Personal() {
 	const PINNED_REPOS = useFetchData<PinnedRepo[]>("pinned-repos");
-	
+
 	return (
 		<motion.main
 			className="space-y-24"
@@ -221,7 +221,7 @@ export default function Personal() {
 				variants={VARIANTS_SECTION}
 				transition={TRANSITION_SECTION}
 			>
-				<h3 className="mb-3 text-lg font-medium">Blog</h3>
+				<h3 className="mb-3 text-lg font-medium">Featured Projects (Source Code)</h3>
 				<div className="flex flex-col space-y-0">
 					<AnimatedBackground
 						enableHover
@@ -234,10 +234,10 @@ export default function Personal() {
 					>
 						{(PINNED_REPOS.data ?? []).map((post) => (
 						<Link
-							key={post.uid}
+							key={post.id}
 							className="-mx-3 rounded-xl px-3 py-3"
 							href={post.link}
-							data-id={post.uid}
+							data-id={post.id}
 						>
 							<div className="flex flex-col space-y-1">
 							<h4 className="font-normal dark:text-zinc-100">
