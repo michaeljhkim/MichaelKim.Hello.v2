@@ -164,6 +164,11 @@ export type HelloInfoData = {
 	birth_date: string;
 };
 
+export type HelloDescriptionData = {
+	role: string;
+	about_me: string;
+};
+
 // can get PinnedRepos[], HelloInfoData, e.t.c
 export function useFetchData<T>(endpointName: string) {
 	const [data, setData] = useState<T | null>(null);

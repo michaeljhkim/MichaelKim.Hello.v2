@@ -54,12 +54,19 @@ app.MapGet("/pinned-repos", async (DatabaseConnection service) => {
 .WithName("GetPinnedRepos")
 .RequireCors(MyAllowSpecificOrigins);
 
-// test endpoint -> get age from database
 app.MapGet("/hello-info-data", async (DatabaseConnection service) => {
         var data = await service.GetHelloInfoDataAsync();
         return Results.Ok(data);
     }
-);
+)
+.RequireCors(MyAllowSpecificOrigins);
+
+app.MapGet("/hello-descriptions", async (DatabaseConnection service) => {
+        var data = await service.GetHelloDescriptionDataAsync();
+        return Results.Ok(data);
+    }
+)
+.RequireCors(MyAllowSpecificOrigins);
 
 // ONLY FOR LOCAL TEST -> FOR CORS ORIGIN ISSUE
 app.UseHttpsRedirection();
