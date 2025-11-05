@@ -12,6 +12,7 @@ public class PinnedRepo {
     public string Name { get; set; } = "";
     public string Description { get; set; } = "";
     public string Link { get; set; } = "";
+    public int Uid { get; set; } = 0;
 }
 
 public class GitHubPinnedRepoFetcher {
@@ -54,7 +55,8 @@ public class GitHubPinnedRepoFetcher {
                     new PinnedRepo {
                         Name = name,
                         Description = description,
-                        Link = $"{baseUrl}{href}"
+                        Link = $"{baseUrl}{href}",
+                        Uid = 0
                     }
                 );
             }

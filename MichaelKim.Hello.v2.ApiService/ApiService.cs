@@ -3,6 +3,20 @@ using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ONLY FOR LOCAL TEST -> FOR CORS ORIGIN ISSUE
+var MyAllowSpecificOrigins = "AllowFrontend";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(MyAllowSpecificOrigins,
+        builder => builder
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .SetIsOriginAllowed((host) => true)
+            .AllowAnyHeader());
+});
+builder.Services.AddControllers();  // might need if controllers are needed in the future
+// END
+
 // Add service defaults & Aspire client integrations.
 builder.AddServiceDefaults();
 
@@ -22,7 +36,6 @@ builder.Services.AddSingleton<GitHubPinnedRepoFetcher>();
 builder.Services.AddHostedService<GitHubPinnedRepoService>();
 builder.Services.AddMemoryCache();
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,14 +53,20 @@ app.MapGet("/pinned-repos", (IMemoryCache cache) => {
         }
         return Results.Ok(new List<PinnedRepo>()); // return empty if not fetched yet
     }
-).WithName("GetPinnedRepos");
+).WithName("GetPinnedRepos").RequireCors(MyAllowSpecificOrigins);
 
 // test endpoint -> get age from database
-app.MapGet("/age", async (DatabaseConnection service) => {
-        var age = await service.GetAgeAsync();
+app.MapGet("/hello-info-data", async (DatabaseConnection service) => {
+        var age = await service.GetHelloInfoDataAsync();
         return Results.Ok(age);
     }
 );
+
+// ONLY FOR LOCAL TEST -> FOR CORS ORIGIN ISSUE
+app.UseHttpsRedirection();
+app.UseCors();
+app.MapControllers();
+// END
 
 app.MapDefaultEndpoints();
 app.Run();
