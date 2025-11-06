@@ -18,7 +18,7 @@ jobs:
       - name: Set up .NET 9
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.x'
+          dotnet-version: '9.0.100'
 
       - name: Restore dependencies
         run: dotnet restore ./MichaelKim.Hello.v2.ApiService/MichaelKim.Hello.v2.ApiService.csproj
@@ -62,3 +62,4 @@ jobs:
           app-name: 'hello-v2-backend-apiservice'
           slot-name: 'Production'
           package: .
+
