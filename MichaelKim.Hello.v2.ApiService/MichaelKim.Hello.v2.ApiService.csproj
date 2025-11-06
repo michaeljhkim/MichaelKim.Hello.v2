@@ -11,6 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ExcludeFromPublish Include="**/*Tests.runtimeconfig.json" />
+    <ExcludeFromPublish Include="**/*Tests.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Aspire.Npgsql" Version="9.5.2" />
     <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.9" />
