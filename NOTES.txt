@@ -6,3 +6,9 @@ dotnet publish -c Release -o ./publish
 cd publish
 zip -r publish.zip .
 az webapp deploy --resource-group hello-v2-backend-apiservice_group --name hello-v2-backend-apiservice --src-path publish.zip
+
+- somehow, the .TEST project is being published alongside the apiservice, if using ubuntu based images
+- this causes the apiservice to fail start because it cannot figure out which .dll to run 
+- to fix, in the azure webapp, configuration/stack settings, find the 'startup command' box, and add:
+dotnet /home/site/wwwroot/MichaelKim.Hello.v2.ApiService.dll
+- this manually loads the correct .dll
