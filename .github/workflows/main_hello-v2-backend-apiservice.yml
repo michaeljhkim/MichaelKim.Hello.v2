@@ -23,6 +23,11 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore ./MichaelKim.Hello.v2.ApiService/MichaelKim.Hello.v2.ApiService.csproj
 
+      - name: Clean build output
+        run: |
+          dotnet clean ./MichaelKim.Hello.v2.ApiService/MichaelKim.Hello.v2.ApiService.csproj
+          rm -rf ./publish
+
       - name: Build
         run: dotnet build ./MichaelKim.Hello.v2.ApiService/MichaelKim.Hello.v2.ApiService.csproj --configuration Release --no-restore
 
