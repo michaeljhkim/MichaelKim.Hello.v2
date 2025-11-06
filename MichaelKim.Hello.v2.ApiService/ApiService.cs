@@ -5,11 +5,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add service defaults & Aspire client integrations.
 builder.AddServiceDefaults();
 
-// ONLY FOR LOCAL TEST -> FOR CORS ORIGIN ISSUE
-/*
+// Enable CORS -> Secure later
 var MyAllowSpecificOrigins = "AllowFrontend";
-builder.Services.AddCors(options =>
-{
+builder.Services.AddCors(options => {
     options.AddPolicy(MyAllowSpecificOrigins,
         builder => builder
             .AllowAnyMethod()
@@ -17,8 +15,7 @@ builder.Services.AddCors(options =>
             .SetIsOriginAllowed((host) => true)
             .AllowAnyHeader());
 });
-// END
-*/
+builder.Services.AddControllers();  // might need if controllers are needed in the future
 
 
 /*
@@ -65,7 +62,7 @@ app.MapGet("/hello-descriptions", async (DatabaseConnection service) => {
 }
 );
 
-//app.UseCors();
+app.UseCors();
 
 app.MapDefaultEndpoints();
 app.Run();
