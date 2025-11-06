@@ -26,11 +26,6 @@ jobs:
       - name: Clean build output
         run: |
           dotnet clean ./MichaelKim.Hello.v2.ApiService/MichaelKim.Hello.v2.ApiService.csproj
-          rm -rf ./publish
-          
-      - name: Clean solution and output folders
-        run: |
-          dotnet clean MichaelKim.Hello.v2.ApiService.sln
           rm -rf ./MichaelKim.Hello.v2.ApiService/bin ./MichaelKim.Hello.v2.ApiService/obj
           rm -rf ./MichaelKim.Hello.v2.ApiService.Tests/bin ./MichaelKim.Hello.v2.ApiService.Tests/obj
           rm -rf ./publish
