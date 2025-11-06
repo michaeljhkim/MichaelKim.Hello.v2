@@ -2,8 +2,11 @@
 using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
+// Add service defaults & Aspire client integrations.
+builder.AddServiceDefaults();
 
 // ONLY FOR LOCAL TEST -> FOR CORS ORIGIN ISSUE
+/*
 var MyAllowSpecificOrigins = "AllowFrontend";
 builder.Services.AddCors(options =>
 {
@@ -14,11 +17,9 @@ builder.Services.AddCors(options =>
             .SetIsOriginAllowed((host) => true)
             .AllowAnyHeader());
 });
-builder.Services.AddControllers();  // might need if controllers are needed in the future
 // END
+*/
 
-// Add service defaults & Aspire client integrations.
-builder.AddServiceDefaults();
 
 /*
 - Connecting to Postgresql server database (Supabase) - configured by connection string in apphost
@@ -35,44 +36,36 @@ builder.Services.AddProblemDetails();
 builder.Services.AddSingleton<GitHubPinnedRepoFetcher>();
 builder.Services.AddHostedService<GitHubPinnedRepoService>();
 builder.Services.AddMemoryCache();
+builder.Services.AddControllers();  // might need if controllers are needed in the future
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
 app.UseExceptionHandler();
+app.UseHttpsRedirection();
+app.MapDefaultEndpoints();
+app.MapControllers();
 
-// COMMENT THIS OUT OR MODIFY TO BE USEFUL
-if (app.Environment.IsDevelopment()) {
-    app.MapOpenApi();
-}
+app.MapGet("/test", () => "Hello, World!");
 
 app.MapGet("/pinned-repos", async (DatabaseConnection service) => {
         var data = await service.GetPinnedReposAsync();
         return Results.Ok(data);
     }
 )
-.WithName("GetPinnedRepos")
-.RequireCors(MyAllowSpecificOrigins);
+.WithName("GetPinnedRepos");
 
 app.MapGet("/hello-info-data", async (DatabaseConnection service) => {
         var data = await service.GetHelloInfoDataAsync();
         return Results.Ok(data);
     }
-)
-.RequireCors(MyAllowSpecificOrigins);
+);
 
 app.MapGet("/hello-descriptions", async (DatabaseConnection service) => {
-        var data = await service.GetHelloDescriptionDataAsync();
-        return Results.Ok(data);
-    }
-)
-.RequireCors(MyAllowSpecificOrigins);
+    var data = await service.GetHelloDescriptionDataAsync();
+    return Results.Ok(data);
+}
+);
 
-// ONLY FOR LOCAL TEST -> FOR CORS ORIGIN ISSUE
-app.UseHttpsRedirection();
-app.UseCors();
-app.MapControllers();
-// END
+//app.UseCors();
 
 app.MapDefaultEndpoints();
 app.Run();

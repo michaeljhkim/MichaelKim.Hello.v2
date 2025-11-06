@@ -12,7 +12,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-	title: 'MichaelKim.Hello',
+	title: 'MichaelKim.Hello.v2',
 	description: 'Frontend created with Nim - https://github.com/ibelick/nim',
 }
 

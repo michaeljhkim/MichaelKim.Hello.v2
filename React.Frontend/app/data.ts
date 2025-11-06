@@ -7,7 +7,7 @@ type Project = {
 	name: string
 	description: string
 	link: string
-	video: string
+	media: string
 	id: string
 }
 
@@ -39,51 +39,40 @@ type SocialLink = {
 	link: string
 }
 
+// Media can be an image or video
 export const PROJECTS: Project[] = [
 	{
-		name: 'Motion Primitives Pro',
-		description:
-			'Advanced components and templates to craft beautiful websites.',
-		link: 'https://pro.motion-primitives.com/',
-		video:
-			'https://res.cloudinary.com/read-cv/video/upload/t_v_b/v1/1/profileItems/W2azTw5BVbMXfj7F53G92hMVIn32/newProfileItem/d898be8a-7037-4c71-af0c-8997239b050d.mp4?_a=DATAdtAAZAA0',
+		name: 'Yurrgoht Game Engine',
+		description: 'A Vulkan game engine developed using the Entity Component structure. Includes Scripting, GUI Editing, and reflection-based serialization.',
+		link:  '#project-links',
+		media: '/videos/yurrgoht_engine_demo.mp4',
 		id: 'project1',
 	},
 	{
-		name: 'Motion Primitives',
-		description: 'UI kit to make beautiful, animated interfaces.',
-		link: 'https://motion-primitives.com/',
-		video:
-			'https://res.cloudinary.com/read-cv/video/upload/t_v_b/v1/1/profileItems/W2azTw5BVbMXfj7F53G92hMVIn32/XSfIvT7BUWbPRXhrbLed/ee6871c9-8400-49d2-8be9-e32675eabf7e.mp4?_a=DATAdtAAZAA0',
+		name: 'Terrain Generator',
+		description: 'Double precision procedural terrain generator utilizing geometry clipmaps ',
+		link:  '#project-links',
+		media: '/videos/terrain_generator_demo.gif',
 		id: 'project2',
 	},
+	{
+		name: 'Path-Trace-Demo-Rust',
+		description: 'Accurate path-tracing algorithm, created in rust, generating standard resolution images.',
+		link:  '#project-links',
+		media: '/images/ray_trace_demo.png',
+		id: 'project3',
+	}
 ]
 
 export const WORK_EXPERIENCE: WorkExperience[] = [
 	{
-		company: 'Reglazed Studio',
-		title: 'CEO',
+		company: 'Bevy Foundation',
+		title: 'Quality Assurance (Volunteer)',
 		start: '2024',
 		end: 'Present',
-		link: 'https://ibelick.com',
+		link: 'https://bevyengine.org/foundation/',
 		id: 'work1',
-	},
-	{
-		company: 'Freelance',
-		title: 'Design Engineer',
-		start: '2022',
-		end: '2024',
-		link: 'https://ibelick.com',
-		id: 'work2',
-	},
-	{
-		company: 'Freelance',
-		title: 'Front-end Developer',
-		start: '2017',
-		end: 'Present',
-		link: 'https://ibelick.com',
-		id: 'work3',
-	},
+	}
 ]
 
 export const BLOG_POSTS: BlogPost[] = [
@@ -118,19 +107,11 @@ export const BLOG_POSTS: BlogPost[] = [
 export const SOCIAL_LINKS: SocialLink[] = [
 	{
 		label: 'Github',
-		link: 'https://github.com/ibelick',
-	},
-	{
-		label: 'Twitter',
-		link: 'https://twitter.com/ibelick',
+		link: 'https://github.com/michaeljhkim',
 	},
 	{
 		label: 'LinkedIn',
-		link: 'https://www.linkedin.com/in/ibelick',
-	},
-	{
-		label: 'Instagram',
-		link: 'https://www.instagram.com/ibelick',
+		link: 'https://www.linkedin.com/in/michael-jh-kim/',
 	},
 ]
 

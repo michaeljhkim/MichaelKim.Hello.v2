@@ -1,4 +1,5 @@
 'use client'
+import React, { useRef, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { XIcon } from 'lucide-react'
 import { Spotlight } from '@/components/ui/spotlight'
@@ -49,34 +50,42 @@ type ProjectVideoProps = {
 	src: string
 }
 
-function ProjectVideo({ src }: ProjectVideoProps) {
+function ProjectMedia({ src }: { src: string }) {
+	const triggerVideoRef = useRef<HTMLVideoElement>(null)
+	const dialogVideoRef = useRef<HTMLVideoElement>(null)
+
+	const isVideo = /\.(mp4|webm|ogg)$/i.test(src)
+
+	useEffect(() => {
+		if (!isVideo) return
+		if (triggerVideoRef.current) {
+			triggerVideoRef.current.playbackRate = 5.0
+		}
+		if (dialogVideoRef.current) {
+			dialogVideoRef.current.playbackRate = 5.0
+		}
+	}, [isVideo])
+
+
 	return (
-		<MorphingDialog
-			transition={{
-				type: 'spring',
-				bounce: 0,
-				duration: 0.3,
-			}}
-		>
+		<MorphingDialog transition={{ type: 'spring', bounce: 0, duration: 0.3, }}>
 			<MorphingDialogTrigger>
-				<video
-					src={src}
-					autoPlay
-					loop
-					muted
-					className="aspect-video w-full cursor-zoom-in rounded-xl"
-				/>
+				{isVideo ? (
+					<video ref={triggerVideoRef} src={src} autoPlay loop muted className="aspect-video w-full cursor-zoom-in rounded-xl"/>
+				) : (
+					<img src={src} alt="Project preview" className="aspect-video w-full object-cover cursor-zoom-in rounded-xl"/>
+				)}
 			</MorphingDialogTrigger>
+
 			<MorphingDialogContainer>
 				<MorphingDialogContent className="relative aspect-video rounded-2xl bg-zinc-50 p-1 ring-1 ring-zinc-200/50 ring-inset dark:bg-zinc-950 dark:ring-zinc-800/50">
-					<video
-						src={src}
-						autoPlay
-						loop
-						muted
-						className="aspect-video h-[50vh] w-full rounded-xl md:h-[70vh]"
-					/>
+					{isVideo ? (
+						<video ref={dialogVideoRef} src={src} autoPlay loop muted className="aspect-video h-[50vh] w-full rounded-xl md:h-[70vh]"/>
+					) : (
+						<img src={src} alt="Project detail" className="aspect-video h-[50vh] w-full object-cover rounded-xl md:h-[70vh]"/>
+					)}
 				</MorphingDialogContent>
+
 				<MorphingDialogClose
 					className="fixed top-6 right-6 h-fit w-fit rounded-full bg-white p-1"
 					variants={{
@@ -130,8 +139,9 @@ function MagneticSocialLink({
 }
 
 export default function Personal() {
-	const PINNED_REPOS = useFetchData<PinnedRepo[]>("pinned-repos");
+	const HELLO_INFO = useFetchData<HelloInfoData>("hello-info-data");
 	const HELLO_DESCRIPTION = useFetchData<HelloDescriptionData>("hello-descriptions");
+	const PINNED_REPOS = useFetchData<PinnedRepo[]>("pinned-repos");
 
 	return (
 		<motion.main
@@ -164,34 +174,46 @@ export default function Personal() {
 				</div>
 			</motion.section>
 
-			<motion.section
-				variants={VARIANTS_SECTION}
-				transition={TRANSITION_SECTION}
-			>
+			<motion.section variants={VARIANTS_SECTION} transition={TRANSITION_SECTION}>
 				<h3 className="mb-5 text-lg font-medium">Selected Projects</h3>
 				<div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-					{PROJECTS.map((project) => (
-						<div key={project.name} className="space-y-2">
-							<div className="relative rounded-2xl bg-zinc-50/40 p-1 ring-1 ring-zinc-200/50 ring-inset dark:bg-zinc-950/40 dark:ring-zinc-800/50">
-								<ProjectVideo src={project.video} />
+					{PROJECTS.map((project) => {
+						const isInternal = project.link.startsWith('#');
+
+						const handleInternalClick = (e: React.MouseEvent) => {
+							e.preventDefault();
+							const targetId = project.link.slice(1);
+							const element = document.getElementById(targetId);
+							if (element) {
+								element.scrollIntoView({ behavior: 'smooth' });
+							}
+						};
+
+						return (
+							<div key={project.name} className="space-y-2">
+								<div className="relative rounded-2xl bg-zinc-50/40 p-1 ring-1 ring-zinc-200/50 ring-inset dark:bg-zinc-950/40 dark:ring-zinc-800/50">
+									<ProjectMedia src={project.media} />
+								</div>
+									<div className="px-1">
+										<a href={project.link} 
+										onClick={isInternal ? handleInternalClick : undefined} 
+										target={isInternal ? undefined : '_blank'} 
+										rel={isInternal ? undefined : 'noopener noreferrer'} 
+										className="font-base group relative inline-block font-[450] text-zinc-900 dark:text-zinc-50"
+										>
+											{project.name}
+											<span className="absolute bottom-0.5 left-0 block h-[1px] w-full max-w-0 bg-zinc-900 transition-all duration-200 group-hover:max-w-full"></span>
+										</a>
+										<p className="text-base text-zinc-600 dark:text-zinc-400">
+											{project.description}
+										</p>
+									</div>
 							</div>
-							<div className="px-1">
-								<a
-									className="font-base group relative inline-block font-[450] text-zinc-900 dark:text-zinc-50"
-									href={project.link}
-									target="_blank"
-								>
-									{project.name}
-									<span className="absolute bottom-0.5 left-0 block h-[1px] w-full max-w-0 bg-zinc-900 dark:bg-zinc-50 transition-all duration-200 group-hover:max-w-full"></span>
-								</a>
-								<p className="text-base text-zinc-600 dark:text-zinc-400">
-									{project.description}
-								</p>
-							</div>
-						</div>
-					))}
+						);
+					})}
 				</div>
 			</motion.section>
+
 
 			<motion.section
 				variants={VARIANTS_SECTION}
@@ -232,6 +254,7 @@ export default function Personal() {
 			</motion.section>
 
 			<motion.section
+				id="project-links"
 				variants={VARIANTS_SECTION}
 				transition={TRANSITION_SECTION}
 			>
@@ -274,9 +297,11 @@ export default function Personal() {
 				<h3 className="mb-5 text-lg font-medium">Connect</h3>
 				<p className="mb-5 text-zinc-600 dark:text-zinc-400">
 					Feel free to contact me at{' '}
-					<a className="underline dark:text-zinc-300" href={`mailto:${EMAIL}`}>
-						{EMAIL}
-					</a>
+					{HELLO_INFO.data?.email && (
+						<a className="underline dark:text-zinc-300" href={`mailto:${HELLO_INFO.data.email}`}>
+							{HELLO_INFO.data.email}
+						</a>
+					)}
 				</p>
 				<div className="flex items-center justify-start space-x-3">
 					{SOCIAL_LINKS.map((link) => (
