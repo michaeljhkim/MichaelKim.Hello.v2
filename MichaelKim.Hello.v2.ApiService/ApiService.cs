@@ -1,6 +1,5 @@
 
 using Microsoft.Extensions.Caching.Memory;
-using Azure.Monitor.OpenTelemetry.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,9 +17,6 @@ builder.Services.AddCors(options => {
             .AllowAnyHeader());
 });
 builder.Services.AddControllers();  // might need if controllers are needed in the future
-
-// Add OpenTelemetry and configure it to use Azure Monitor.
-builder.Services.AddOpenTelemetry().UseAzureMonitor();
 
 /*
 - Connecting to Postgresql server database (Supabase) - configured by connection string in apphost
