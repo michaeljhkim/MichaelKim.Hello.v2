@@ -4,15 +4,11 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PublishReferencedProjects>false</PublishReferencedProjects>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MichaelKim.Hello.v2.ServiceDefaults\MichaelKim.Hello.v2.ServiceDefaults.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ExcludeFromPublish Include="**/*Tests.runtimeconfig.json" />
-    <ExcludeFromPublish Include="**/*Tests.dll" />
   </ItemGroup>
 
   <ItemGroup>
