@@ -1,7 +1,9 @@
 
 using Microsoft.Extensions.Caching.Memory;
+using Azure.Monitor.OpenTelemetry.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
 // Add service defaults & Aspire client integrations.
 builder.AddServiceDefaults();
 
@@ -17,6 +19,8 @@ builder.Services.AddCors(options => {
 });
 builder.Services.AddControllers();  // might need if controllers are needed in the future
 
+// Add OpenTelemetry and configure it to use Azure Monitor.
+builder.Services.AddOpenTelemetry().UseAzureMonitor();
 
 /*
 - Connecting to Postgresql server database (Supabase) - configured by connection string in apphost
