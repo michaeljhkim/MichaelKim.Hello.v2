@@ -22,6 +22,8 @@ public class HelloInfoData {
 
 public class HelloDescriptionData {
     public string role { get; set; } = "";
+    public string website_description { get; set; } = "";
+
     public string about_me { get; set; } = "";
 }
 
@@ -48,7 +50,7 @@ public class DatabaseConnection {
         await using var reader = await cmd.ExecuteReaderAsync();
 
         var results = new List<T>();
-        
+
         while (await reader.ReadAsync()) {
             results.Add(map(reader));
         }
@@ -58,29 +60,30 @@ public class DatabaseConnection {
     // Get data from hello_info table
     public async Task<HelloInfoData?> GetHelloInfoDataAsync() {
         var result = await SqlQueryAsync("SELECT * FROM hello_info LIMIT 1;", reader => new HelloInfoData {
-                first_name = reader.GetString(1),
-                last_name = reader.GetString(2),
-                age = reader.GetInt32(3),
-                email = reader.GetString(4),
-                github = reader.GetString(5),
-                linkedin = reader.GetString(6),
-                birth_date = reader.GetString(7)
-            }
+            first_name = reader.GetString(1),
+            last_name = reader.GetString(2),
+            age = reader.GetInt32(3),
+            email = reader.GetString(4),
+            github = reader.GetString(5),
+            linkedin = reader.GetString(6),
+            birth_date = reader.GetString(7)
+        }
         );
         return result.FirstOrDefault();
     }
 
+    // Get website descriptions data from hello_descriptions
     public async Task<HelloDescriptionData?> GetHelloDescriptionDataAsync() {
         var result = await SqlQueryAsync("SELECT * FROM hello_descriptions LIMIT 1;", reader => new HelloDescriptionData {
-                role = reader.GetString(1),
-                about_me = reader.GetString(2)
-            }
+            role = reader.GetString(1),
+            website_description = reader.GetString(2),
+            about_me = reader.GetString(3)
+        }
         );
         return result.FirstOrDefault();
     }
 
-
-    // Get Data Scraped Pinned repos from sql database
+    // Get Data-Scraped Pinned repos from sql database
     public async Task<List<PinnedRepo>?> GetPinnedReposAsync() {
         var result = await SqlQueryAsync("SELECT * FROM github_repos;", reader => new PinnedRepo {
                 Name = reader.GetString(0),

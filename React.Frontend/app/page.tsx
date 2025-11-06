@@ -19,6 +19,7 @@ import {
 	EMAIL,
 	SOCIAL_LINKS,
 	HelloInfoData,
+	HelloDescriptionData,
 	PinnedRepo,
 	useFetchData
 } from './data'
@@ -130,10 +131,11 @@ function MagneticSocialLink({
 
 export default function Personal() {
 	const PINNED_REPOS = useFetchData<PinnedRepo[]>("pinned-repos");
+	const HELLO_DESCRIPTION = useFetchData<HelloDescriptionData>("hello-descriptions");
 
 	return (
 		<motion.main
-			className="space-y-24"
+			className="space-y-15"
 			variants={VARIANTS_CONTAINER}
 			initial="hidden"
 			animate="visible"
@@ -143,10 +145,22 @@ export default function Personal() {
 				transition={TRANSITION_SECTION}
 			>
 				<div className="flex-1">
-					<p className="text-zinc-600 dark:text-zinc-400">
-						Focused on creating intuitive and performant web experiences.
-						Bridging the gap between design and development.
-					</p>
+					{HELLO_DESCRIPTION.data?.website_description && (
+						<p className="text-zinc-600 dark:text-zinc-400">
+							{HELLO_DESCRIPTION.data.website_description}
+						</p>
+					)}
+				</div>
+			</motion.section>
+
+			<motion.section variants={VARIANTS_SECTION} transition={TRANSITION_SECTION}>
+				<h3 className="mb-5 text-2xl font-medium">About Me</h3>
+				<div className="flex-1">
+					{HELLO_DESCRIPTION.data?.about_me && (
+						<p className="text-zinc-600 dark:text-zinc-400">
+							{HELLO_DESCRIPTION.data.about_me}
+						</p>
+					)}
 				</div>
 			</motion.section>
 

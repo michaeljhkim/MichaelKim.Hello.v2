@@ -12,10 +12,10 @@ export function Header() {
 	return (
 		<header className="mb-8 flex items-center justify-between">
 			<div>
-				<Link href="/" className="font-medium text-black dark:text-white">
+				<Link href="/" className="font-medium text-black dark:text-white text-3xl">
 					Michael Kim
 				</Link>
-				<div className="min-h-[2em]">
+				<div className="min-h-[1.5em]">
 					{HELLO_DESCRIPTION.data?.role && (
 						<TextEffect
 							as="p"

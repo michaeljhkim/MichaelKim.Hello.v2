@@ -166,6 +166,7 @@ export type HelloInfoData = {
 
 export type HelloDescriptionData = {
 	role: string;
+	website_description: string;
 	about_me: string;
 };
 
