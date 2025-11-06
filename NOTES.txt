@@ -1,0 +1,8 @@
+- publish.zip MUST HAVE THE CONTENTS OF THE publish DIRECTORY, CANNOT HAVE THE PUBLISH FOLDER ITSELF
+- WILL ABSOLUTELY FAIL OTHERWISE
+
+- deploy command -> need to figure out how to automate with azure devops:
+dotnet publish -c Release -o ./publish
+cd publish
+zip -r publish.zip .
+az webapp deploy --resource-group hello-v2-backend-apiservice_group --name hello-v2-backend-apiservice --src-path publish.zip
