@@ -11,7 +11,7 @@ Building and Deploying are now handled via Github Actions.
 - **Automated Testing:** \
 Tests are now unified and run before deployment. \
 
-**Live Website:** Not Available Yet
+**Live Website:** [MichaelKim.Hello.v2](https://black-pond-08086d30f.3.azurestaticapps.net/)
 
 ## 🚀 Features
 - 🔄 **Automated Project Showcase:** \
