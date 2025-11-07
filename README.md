@@ -30,8 +30,6 @@ Comprehensive backend testing implemented with xUnit, integrated into the CI/CD 
 Built with maintainability and scalability in mind, leveraging .NET Aspire for service orchestration.
 
 ## TBD
-- Publishing Frontend on Azure.
-- Automating Frontend Build/Deployment with Github Actions.
 - Configuring more xUnit tests.
 
 ## 🔧 Tech Stack
