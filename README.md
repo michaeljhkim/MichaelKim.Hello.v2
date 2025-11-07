@@ -10,6 +10,8 @@ Values are grouped and exposed by tables, instead of individual values.
 Building and Deploying are now handled via Github Actions.
 - **Automated Testing:** \
 Tests are now unified and run before deployment.
+-  **Monitoring and Logging:** \
+Telemetry data and logs are saved to an Azure's Application Insight service.
 
 **Live Website:** [MichaelKim.Hello.v2](https://black-pond-08086d30f.3.azurestaticapps.net/)
 
