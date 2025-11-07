@@ -36,12 +36,11 @@ builder.Services.AddMemoryCache();
 builder.Services.AddControllers();  // might need if controllers are needed in the future
 
 var app = builder.Build();
-app.UseExceptionHandler();
-app.UseHttpsRedirection();
-app.MapDefaultEndpoints();
-app.MapControllers();
 
-app.MapGet("/test", () => "Hello, World!");
+// Configure the HTTP request pipeline.
+app.UseExceptionHandler();
+
+app.MapGet("/test", () => "Hello, World!").RequireCors(MyAllowSpecificOrigins);
 
 app.MapGet("/pinned-repos", async (DatabaseConnection service) => {
         var data = await service.GetPinnedReposAsync();
@@ -65,7 +64,9 @@ app.MapGet("/hello-descriptions", async (DatabaseConnection service) => {
 )
 .RequireCors(MyAllowSpecificOrigins);
 
+app.UseHttpsRedirection();
 app.UseCors();
+app.MapControllers();
 
 app.MapDefaultEndpoints();
 app.Run();
