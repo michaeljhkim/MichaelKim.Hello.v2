@@ -1,7 +1,15 @@
 # MichaelKim.Hello.v2
 
 New and improved Full-Stack Portfolio Web Application built with React, .NET Aspire, and PostgreSQL. 
-- Fixes beginner mistakes and bad practices from version 1.
+- **Descriptions Stored in SQL Database:** \
+Details can now be updated without re-deployment.
+
+- **Unified Endpoints:** \
+Values are grouped and exposed by tables, instead of individual values.
+- **Automated Deployment:** \
+Building and Deploying are now handled via Github Actions.
+- **Automated Testing:** \
+Tests are now unified and run before deployment. \
 
 **Live Website:** Not Available Yet
 
