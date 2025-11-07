@@ -48,19 +48,22 @@ app.MapGet("/pinned-repos", async (DatabaseConnection service) => {
         return Results.Ok(data);
     }
 )
+.RequireCors(MyAllowSpecificOrigins)
 .WithName("GetPinnedRepos");
 
 app.MapGet("/hello-info-data", async (DatabaseConnection service) => {
         var data = await service.GetHelloInfoDataAsync();
         return Results.Ok(data);
     }
-);
+)
+.RequireCors(MyAllowSpecificOrigins);
 
 app.MapGet("/hello-descriptions", async (DatabaseConnection service) => {
-    var data = await service.GetHelloDescriptionDataAsync();
-    return Results.Ok(data);
-}
-);
+        var data = await service.GetHelloDescriptionDataAsync();
+        return Results.Ok(data);
+    }
+)
+.RequireCors(MyAllowSpecificOrigins);
 
 app.UseCors();
 
