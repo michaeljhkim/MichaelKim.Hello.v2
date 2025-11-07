@@ -9,7 +9,7 @@ Values are grouped and exposed by tables, instead of individual values.
 - **Automated Deployment:** \
 Building and Deploying are now handled via Github Actions.
 - **Automated Testing:** \
-Tests are now unified and run before deployment. \
+Tests are now unified and run before deployment.
 
 **Live Website:** [MichaelKim.Hello.v2](https://black-pond-08086d30f.3.azurestaticapps.net/)
 
