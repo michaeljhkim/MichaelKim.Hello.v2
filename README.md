@@ -17,13 +17,13 @@ Telemetry data and logs are saved to an Azure's Application Insight service.
 
 ## 🚀 Features
 - 🔄 **Automated Project Showcase:** \
-Dynamically scrapes and syncs data from my GitHub profile (including pinned repositories) to automatically populate featured projects.
+Dynamically scrapes and syncs data from my GitHub pinned repositories to automatically populate featured projects. The Gtihub API does not provide access to pinned repositories.
 - 🗄️ **Database-Driven Content Management:** \
-Stores and manages repository metadata (titles, descriptions, links, emails, etc.) in a PostgreSQL database, allowing content updates without redeploying the application.
+Stores and manages repository metadata (titles, descriptions, links, emails, etc.) in a PostgreSQL database, allowing content updates without redeploying the apiservice.
 - ⚙️ **Full-Stack Integration:** \
 .NET backend provides structured APIs for the React frontend to fetch and display data seamlessly.
 - ☁️ **Cloud Hosting & Monitoring:** \
-Fully hosted on Microsoft Azure, featuring integrated Azure Application Insights for observability and performance monitoring.
+Fully hosted on Microsoft Azure and SupaBase (Postgresql Database), featuring integrated Azure Application Insights for observability and performance monitoring.
 - 🔁 **CI/CD Pipeline:** \
 Continuous integration and deployment implemented with GitHub Actions, enabling automated builds, tests, and deployments on push.
 - 🧪 **Automated Testing:** \
