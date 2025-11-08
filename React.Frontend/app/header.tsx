@@ -16,7 +16,9 @@ export function Header() {
 					Michael Kim
 				</Link>
 				<div className="min-h-[1.5em]">
-					{HELLO_DESCRIPTION.data?.role && (
+					{HELLO_DESCRIPTION.loading ? (
+						<p className="text-zinc-500 animate-pulse">LOADING...</p>
+					) : HELLO_DESCRIPTION.data?.role && (
 						<TextEffect
 							as="p"
 							preset="fade"

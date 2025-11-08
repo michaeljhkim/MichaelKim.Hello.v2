@@ -155,7 +155,9 @@ export default function Personal() {
 				transition={TRANSITION_SECTION}
 			>
 				<div className="flex-1">
-					{HELLO_DESCRIPTION.data?.website_description && (
+					{HELLO_DESCRIPTION.loading ? (
+						<p className="text-zinc-500 animate-pulse">LOADING...</p>
+					) : HELLO_DESCRIPTION.data?.website_description && (
 						<p className="text-zinc-600 dark:text-zinc-400">
 							{HELLO_DESCRIPTION.data.website_description}
 						</p>
@@ -166,7 +168,9 @@ export default function Personal() {
 			<motion.section variants={VARIANTS_SECTION} transition={TRANSITION_SECTION}>
 				<h3 className="mb-5 text-2xl font-medium">About Me</h3>
 				<div className="flex-1">
-					{HELLO_DESCRIPTION.data?.about_me && (
+					{HELLO_DESCRIPTION.loading ? (
+						<p className="text-zinc-500 animate-pulse">LOADING...</p>
+					) : HELLO_DESCRIPTION.data?.about_me && (
 						<p className="text-zinc-600 dark:text-zinc-400">
 							{HELLO_DESCRIPTION.data.about_me}
 						</p>
@@ -269,7 +273,9 @@ export default function Personal() {
 							duration: 0.2,
 						}}
 					>
-						{(PINNED_REPOS.data ?? []).map((post) => (
+						{PINNED_REPOS.loading ? (
+							<div className="text-zinc-500 animate-pulse">LOADING...</div>
+						) : (PINNED_REPOS.data ?? []).map((post) => (
 						<Link
 							key={post.id}
 							className="-mx-3 rounded-xl px-3 py-3"
@@ -297,14 +303,18 @@ export default function Personal() {
 				<h3 className="mb-5 text-lg font-medium">Connect</h3>
 				<p className="mb-5 text-zinc-600 dark:text-zinc-400">
 					Feel free to contact me at{' '}
-					{HELLO_INFO.data?.email && (
+					{HELLO_INFO.loading ? (
+						<a className="text-zinc-500 animate-pulse">LOADING...</a>
+					) : HELLO_INFO.data?.email && (
 						<a className="underline dark:text-zinc-300" href={`mailto:${HELLO_INFO.data.email}`}>
 							{HELLO_INFO.data.email}
 						</a>
 					)}
 				</p>
 				<div className="flex items-center justify-start space-x-3">
-					{SOCIAL_LINKS.map((link) => (
+					{HELLO_INFO.loading ? (
+						<div className="text-zinc-500 animate-pulse">LOADING...</div>
+					) : SOCIAL_LINKS.map((link) => (
 						<MagneticSocialLink key={link.label} link={link.link}>
 							{link.label}
 						</MagneticSocialLink>
