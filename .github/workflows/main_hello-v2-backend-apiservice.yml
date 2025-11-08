@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'MichaelKim.Hello.v2.ApiService/**'
+      - 'MichaelKim.Hello.v2.AppHost/**'
+      - 'MichaelKim.Hello.v2.ServiceDefaults/**'
   workflow_dispatch:
 
 jobs:
