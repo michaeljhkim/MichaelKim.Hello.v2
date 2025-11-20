@@ -10,7 +10,12 @@ https://www.npgsql.org/doc/basic-usage.html
 Dependency Injection class -> accesses the NpgsqlDataSource instance and runs sql commands
 */
 
-public class HelloInfoData {
+// Interface -> Data Type handles reader instance directly 
+public interface DataInterface {
+    void ProcessReadData(NpgsqlDataReader reader);
+}
+
+public class HelloInfoData : DataInterface {
     public string first_name { get; set; } = "";
     public string last_name { get; set; } = "";
     public int age { get; set; } = 0;
@@ -18,8 +23,11 @@ public class HelloInfoData {
     public string github { get; set; } = "";
     public string linkedin { get; set; } = "";
     public string birth_date { get; set; } = "";
+    
+    public HelloInfoData() {
+    }
 
-    public HelloInfoData(NpgsqlDataReader reader) {
+    public void ProcessReadData(NpgsqlDataReader reader) {
         first_name = reader.GetString(1);
         last_name = reader.GetString(2);
         age = reader.GetInt32(3);
@@ -30,33 +38,40 @@ public class HelloInfoData {
     }
 }
 
-public class HelloDescriptionData {
+public class HelloDescriptionData : DataInterface {
     public string role { get; set; } = "";
     public string website_description { get; set; } = "";
 
     public string about_me { get; set; } = "";
 
-    public HelloDescriptionData(NpgsqlDataReader reader) {
+    public HelloDescriptionData() {
+    }
+
+    public void ProcessReadData(NpgsqlDataReader reader) {
         role = reader.GetString(1);
         website_description = reader.GetString(2);
         about_me = reader.GetString(3);
     }
 }
 
-public class PinnedRepo {
+public class PinnedRepo : DataInterface {
     public string Name { get; set; } = "";
     public string Description { get; set; } = "";
     public string Link { get; set; } = "";
     // managed by database
     public Guid Id { get; set; } = Guid.Empty;
 
-    public PinnedRepo(NpgsqlDataReader reader) {
+    public PinnedRepo() {
+    }
+
+    public void ProcessReadData(NpgsqlDataReader reader) {
         Name = reader.GetString(0);
         Description = reader.GetString(1);
         Link = reader.GetString(2);
         Id = reader.GetGuid(3);
     }
 }
+
 
 
 public class DatabaseConnection {
@@ -66,8 +81,8 @@ public class DatabaseConnection {
         _dataSource = dataSource;
     }
 
-    // gets row(s)
-    private async Task<List<T>> SqlQueryAsync<T>(string sql, Func<NpgsqlDataReader, T> map) {
+    // get data from DB in list form
+    public async Task<List<T>> SqlQueryAsync<T>(string sql) where T : DataInterface, new() {
         await using var conn = await _dataSource.OpenConnectionAsync();
         await using var cmd = new NpgsqlCommand(sql, conn);
         await using var reader = await cmd.ExecuteReaderAsync();
@@ -75,26 +90,10 @@ public class DatabaseConnection {
         var results = new List<T>();
 
         while (await reader.ReadAsync()) {
-            results.Add(map(reader));
+            var new_instance = new T();
+            new_instance.ProcessReadData(reader);
+            results.Add(new_instance);
         }
         return results;
-    }
-
-    // Get data from hello_info table
-    public async Task<HelloInfoData?> GetHelloInfoDataAsync() {
-        var result = await SqlQueryAsync("SELECT * FROM hello_info LIMIT 1;", reader => new HelloInfoData(reader));
-        return result.FirstOrDefault();
-    }
-
-    // Get website descriptions data from hello_descriptions
-    public async Task<HelloDescriptionData?> GetHelloDescriptionDataAsync() {
-        var result = await SqlQueryAsync("SELECT * FROM hello_descriptions LIMIT 1;", reader => new HelloDescriptionData(reader));
-        return result.FirstOrDefault();
-    }
-
-    // Get Data-Scraped Pinned repos from sql database
-    public async Task<List<PinnedRepo>?> GetPinnedReposAsync() {
-        var result = await SqlQueryAsync("SELECT * FROM github_repos;", reader => new PinnedRepo(reader));
-        return result.Any() ? result : null;
     }
 }
