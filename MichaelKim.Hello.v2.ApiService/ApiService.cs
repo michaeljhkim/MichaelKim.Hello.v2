@@ -1,4 +1,3 @@
-
 using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,27 +41,20 @@ app.UseExceptionHandler();
 
 app.MapGet("/test", () => "Hello, World!").RequireCors(MyAllowSpecificOrigins);
 
-app.MapGet("/pinned-repos", async (DatabaseConnection service) => {
-        var data = await service.GetPinnedReposAsync();
-        return Results.Ok(data);
-    }
-)
-.RequireCors(MyAllowSpecificOrigins)
-.WithName("GetPinnedRepos");
+// use dependency injection to streamline GET endpoints
+void CreateGetEndpoint<T>(string endpoint_name, Func<DatabaseConnection, Task<T>> func) {
 
-app.MapGet("/hello-info-data", async (DatabaseConnection service) => {
-        var data = await service.GetHelloInfoDataAsync();
-        return Results.Ok(data);
-    }
-)
-.RequireCors(MyAllowSpecificOrigins);
+    app.MapGet(endpoint_name, async (DatabaseConnection service) => {
+            var data = await func(service);
+            return Results.Ok(data);
+        }
+    )
+    .RequireCors(MyAllowSpecificOrigins);
+}
 
-app.MapGet("/hello-descriptions", async (DatabaseConnection service) => {
-        var data = await service.GetHelloDescriptionDataAsync();
-        return Results.Ok(data);
-    }
-)
-.RequireCors(MyAllowSpecificOrigins);
+CreateGetEndpoint("/pinned-repos", s => s.GetPinnedReposAsync());
+CreateGetEndpoint("/hello-info-data", s => s.GetHelloInfoDataAsync());
+CreateGetEndpoint("/hello-descriptions", s => s.GetHelloDescriptionDataAsync());
 
 app.UseHttpsRedirection();
 app.UseCors();
