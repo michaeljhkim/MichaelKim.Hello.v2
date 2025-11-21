@@ -80,7 +80,7 @@ public class DatabaseConnection {
     public DatabaseConnection(NpgsqlDataSource dataSource) {
         _dataSource = dataSource;
     }
-
+    
     // get data from DB in list form
     public async Task<List<T>> SqlQueryAsync<T>(string sql) where T : DataInterface, new() {
         await using var conn = await _dataSource.OpenConnectionAsync();

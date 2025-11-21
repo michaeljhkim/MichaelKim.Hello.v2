@@ -9,12 +9,14 @@ builder.AddServiceDefaults();
 // Enable CORS -> Secure later
 var MyAllowSpecificOrigins = "AllowFrontend";
 builder.Services.AddCors(options => {
-    options.AddPolicy(MyAllowSpecificOrigins,
+    options.AddPolicy(
+        MyAllowSpecificOrigins,
         builder => builder
             .AllowAnyMethod()
             .AllowCredentials()
             .SetIsOriginAllowed((host) => true)
-            .AllowAnyHeader());
+            .AllowAnyHeader()
+        );
 });
 builder.Services.AddControllers();  // might need if controllers are needed in the future
 
@@ -40,7 +42,19 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler();
 
+// Test endpoint: to see if endpoints work at all
 app.MapGet("/test", () => "Hello, World!").RequireCors(MyAllowSpecificOrigins);
+
+// checks if api-service can connect to the database
+app.MapGet("/health-db", async (NpgsqlDataSource dataSource) => {
+    try {
+        var result = await dataSource.CreateCommand("SELECT 1").ExecuteScalarAsync();
+        return result is 1 ? Results.Ok() : Results.Problem();
+    }
+    catch (Exception ex) {
+        return Results.Problem(ex.Message);
+    }
+});
 
 /*
 - use dependency injection to streamline GET endpoints
