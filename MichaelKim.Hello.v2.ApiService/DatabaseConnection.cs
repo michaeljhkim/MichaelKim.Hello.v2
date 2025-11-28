@@ -1,5 +1,3 @@
-using System.Data.Common;
-using System.Runtime.InteropServices;
 using Npgsql;
 
 /*

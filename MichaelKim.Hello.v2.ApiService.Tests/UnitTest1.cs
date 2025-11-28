@@ -9,7 +9,7 @@ using Xunit;
 
 // study this more later
 public class AppHostFixture : IAsyncLifetime {
-    public DistributedApplication App { get; private set; }
+    public DistributedApplication? App { get; private set; }
 
     public async Task InitializeAsync() {
         var builder = await DistributedApplicationTestingBuilder.CreateAsync<Projects.MichaelKim_Hello_v2_AppHost>();
@@ -29,6 +29,12 @@ public class IntegrationTests : IClassFixture<AppHostFixture> {
     private readonly AppHostFixture _fixture;
     public IntegrationTests(AppHostFixture fixture) {
         _fixture = fixture;
+    }
+
+    // Assert that App is not null
+    [Fact]
+    public async Task Valid_DistributedApplication() {
+        Assert.NotNull(_fixture.App);
     }
 
     // test if endpoints can be recieved
